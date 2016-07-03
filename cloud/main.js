@@ -3,8 +3,8 @@ Mailgun.initialize(process.env.MAILGUN_DOMAIN, process.env.MAILGUN_API_KEY);
 
 Parse.Cloud.define('sendEmailToUser', function(req, res) {
   mailgun.sendEmail({
-    to: "email@example.com",
-    from: "Mailgun@CloudCode.com",
+    to: process.env.TESTMAIL,
+    from: process.env.MAILGUN_SMTP_LOGIN,
     subject: "Hello from Cloud Code!",
     text: "Using Parse and Mailgun is great!"
 }, {
