@@ -33,8 +33,8 @@
      * @param {String} domainName Your Mailgun domain name
      * @param {String} apiKey Your Mailgun api key
      */
-    initialize: function(process.env.MAILGUN_DOMAIN, process.env.MAILGUN_API_KEY) {
-      domain = process.env.MAILGUN_DOMAIN;
+    initialize: function(domainName, apiKey) {
+      domain = domain;
       key = apiKey;
       return this;
     },
