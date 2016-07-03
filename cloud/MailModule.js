@@ -17,7 +17,7 @@
 
 (function() {
 
-  var url = 'api.mailgun.net/v3';
+  var url = 'api.mailgun.net/v2';
   var domain = '';
   var key = '';
 
