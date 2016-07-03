@@ -1,5 +1,5 @@
-//var mailgun = require('cloud/MailModule.js');
-//mailgun.initialize(process.env.MAILGUN_DOMAIN, process.env.MAILGUN_API_KEY);
+var client = require('cloud/MailModule.js');
+client.initialize(process.env.MAILGUN_DOMAIN, process.env.MAILGUN_API_KEY);
 /*
 Parse.Cloud.define('hello', function(req, res) {
 Mailgun.sendEmail({
@@ -20,7 +20,7 @@ Mailgun.sendEmail({
 });
 */
 Parse.Cloud.define("sendMail", function(request, response) {
-  mailgun.sendEmail({ 
+  client.sendEmail({ 
       to: process.env.TESTMAIL, 
       from: process.env.MAILGUN_SMTP_LOGIN, 
       subject: "Hello from Cloud Code!", 
