@@ -17,7 +17,7 @@
 
 (function() {
 
-  var url = 'api.mailgun.net/v2';
+  var url = 'api.mailgun.net/v3';
   var domain = '';
   var key = '';
 
@@ -33,8 +33,8 @@
      * @param {String} domainName Your Mailgun domain name
      * @param {String} apiKey Your Mailgun api key
      */
-    initialize: function(domainName, apiKey) {
-      domain = domainName;
+    initialize: function(process.env.MAILGUN_DOMAIN, process.env.MAILGUN_API_KEY) {
+      domain = process.env.MAILGUN_DOMAIN;
       key = apiKey;
       return this;
     },
