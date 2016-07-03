@@ -42,4 +42,4 @@
         } }, function(httpResponse) {
         if (options && options.error) {
           options.error(httpResponse);
-        }  });}}});
+        }  });}}}}());
