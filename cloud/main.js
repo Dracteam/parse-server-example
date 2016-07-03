@@ -1,5 +1,7 @@
+/*
 var client = require('cloud/MailModule.js');
 client.initialize(process.env.MAILGUN_DOMAIN, process.env.MAILGUN_API_KEY);
+*/
 /*
 Parse.Cloud.define('hello', function(req, res) {
 Mailgun.sendEmail({
@@ -20,17 +22,25 @@ Mailgun.sendEmail({
 });
 */
 Parse.Cloud.define("sendMail", function(request, response) {
-  client.sendEmail({ 
+ 
+  Parse.Cloud.httpRequest({
+        method: "POST",
+        url: "https://api:" + process.env.MAILGUN_API_KEY + "@api.mailgun.net/v2/" + process.env.MAILGUN_DOMAIN + "/messages",
+        body: { 
       to: process.env.TESTMAIL, 
       from: process.env.MAILGUN_SMTP_LOGIN, 
       subject: "Hello from Cloud Code!", 
       text: "Using Parse and Mailgun is great!" 
       
-  }).then(function(httpResponse) {
-    response.success("Email sent!");
-  }, function(httpResponse) {
-    console.error(httpResponse);
-    response.error("Uh oh, something went wrong");
-  });
+      },
+      }).then(function(httpResponse) {
+        if (options && options.success) {
+          options.success(httpResponse);
+        }
+      }, function(httpResponse) {
+        if (options && options.error) {
+          options.error(httpResponse);
+        }
+      });
 });
 
