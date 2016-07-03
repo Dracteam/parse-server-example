@@ -22,32 +22,15 @@
   var key = '';
 
   module.exports = {
-    /**
-     * Get the version of the module.
-     * @return {String}
-     */
+
     version: '1.0.0',
 
-    /**
-     * Initialize the Mailgun module with the proper credentials.
-     * @param {String} domainName Your Mailgun domain name
-     * @param {String} apiKey Your Mailgun api key
-     */
     initialize: function(domainName, apiKey) {
       domain = domain;
       key = apiKey;
       return this;
     },
 
-    /**
-     * Send an email using Mailgun.
-     * @param {Object} params A hash of the paramaters to be passed to
-     *      the Mailgun API. They are passed as-is, so you should
-     *      consult Mailgun's documentation to ensure they are valid.
-     * @param {Object} options A hash with the success and error callback
-     *      functions under the keys 'success' and 'error' respectively.
-     * @return {Parse.Promise}
-     */
     sendEmail: function(params, options) {
       return Parse.Cloud.httpRequest({
         method: "POST",
@@ -56,13 +39,7 @@
       }).then(function(httpResponse) {
         if (options && options.success) {
           options.success(httpResponse);
-        }
-      }, function(httpResponse) {
+        } }, function(httpResponse) {
         if (options && options.error) {
           options.error(httpResponse);
-        }
-      });
-    }
-
-  }
-}());
+        }  });}}});
