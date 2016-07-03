@@ -1,5 +1,5 @@
 Parse.Cloud.define('hello', function(req, res) {
-res.success('Hello ! Cloud Code Work Fine, mailgun domain:'+ process.env.MAILGUN_DOMAIN + 'from' +  process.env.TESTMAIL + 'from' + process.env.MAILGUN_SMTP_LOGIN);
+res.success('Hello ! Cloud Code Work Fine, mailgun domain: '+ process.env.MAILGUN_DOMAIN + 'api key: '+  process.env.MAILGUN_API_KEY  +  'from: ' +  process.env.TESTMAIL + 'to:  ' + process.env.MAILGUN_SMTP_LOGIN);
 });
 
 
