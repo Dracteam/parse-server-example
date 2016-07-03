@@ -20,6 +20,8 @@ Mailgun.sendEmail({
     }
 });
 });
+
+from='Excited User <postmaster@appa9a584ad97074d5ab260c6e53ec0ae06.mailgun.org>'
 */
 Parse.Cloud.define("sendMail", function(request, response) {
  
@@ -28,7 +30,7 @@ Parse.Cloud.define("sendMail", function(request, response) {
         url: "https://api:" + process.env.MAILGUN_API_KEY + "@api.mailgun.net/v2/" + process.env.MAILGUN_DOMAIN + "/messages",
         body: { 
             to: process.env.TESTMAIL, 
-            from: process.env.MAILGUN_SMTP_LOGIN, 
+            from: 'Your Order <' + process.env.MAILGUN_SMTP_LOGIN +'>', 
             subject: "Hello from Cloud Code!", 
             text: "Using Parse and Mailgun is great!" 
       },
