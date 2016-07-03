@@ -32,9 +32,8 @@ Parse.Cloud.define("sendMail", function(request, response) {
             to: process.env.TESTMAIL, 
             from: 'Your Order <' + process.env.MAILGUN_SMTP_LOGIN +'>', 
             subject: "Hello from Cloud Code!", 
-            text: "Using Parse and Mailgun is great!", 
-            html: "<table style=""height: 363px;"" width=""100%""><tbody><tr><td colspan="2" bgcolor=blue><h1> <font color=""#FFFFFF"">YOUR ORDER</h1></td></tr></tbody></table>"
-      },
+            text: "Using Parse and Mailgun is great!"
+            },
       success: function(httpResponse) {
         response.success("Email sent!");
     },
