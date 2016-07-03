@@ -33,14 +33,10 @@ Parse.Cloud.define("sendMail", function(request, response) {
             text: "Using Parse and Mailgun is great!" 
       },
       success: function(httpResponse) {
-        var patt1 = /[0-9]+%/g;
-        response.success(httpResponse.text.match(patt1));
+        response.success("Email sent!");
     },
     error: function(httpResponse) {
-        var failer = new Array();
-        failer[0] = "fail";
-        failer[1] = httpResponse.status;
-        response.success(failer);
+        response.error(("Uh oh, something went wrong");
     }
       });
 });
