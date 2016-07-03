@@ -1,22 +1,5 @@
-var Mailgun = require('mailgun');
-Mailgun.initialize(process.env.MAILGUN_DOMAIN, process.env.MAILGUN_API_KEY);
-
-Parse.Cloud.define('sendEmailToUser', function(req, res) {
-  Mailgun.sendEmail({
-    to: process.env.TESTMAIL,
-    from: process.env.MAILGUN_SMTP_LOGIN,
-    subject: "Hello from Cloud Code!",
-    text: "Using Parse and Mailgun is great!"
-}, {
-    success: function(httpResponse) {
-        console.log(httpResponse);
-        response.success("Email sent!");
-    },
-    error: function(httpResponse) {
-       console.error(httpResponse);
-       response.error("Uh oh, something went wrong");
-    }
-});
+Parse.Cloud.define('hello', function(req, res) {
+res.success('Hello ! Cloud Code Work Fine, mailgun domain:' + process.env.MAILGUN_DOMAIN + 'mailgun api key' + process.env.MAILGUN_API_KEY + 'to:'  process.env.TESTMAIL + 'from' + process.env.MAILGUN_SMTP_LOGIN);
 });
 
 
