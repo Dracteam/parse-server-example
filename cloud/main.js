@@ -33,7 +33,7 @@ Parse.Cloud.define("sendMail", function(request, response) {
             text: "Using Parse and Mailgun is great!" 
       },
       success: function(httpResponse) {
-        response('Email Sent!');
+        response(httpResponse.text);
       },
       error: function(httpResponse) {
         response('Request failed with response code ' + httpResponse.status)
