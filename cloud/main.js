@@ -36,10 +36,12 @@ Parse.Cloud.define("sendMail", function(request, response) {
       }).then(function(httpResponse) {
         if (options && options.success) {
           options.success(httpResponse);
+          response.success("Email sent!");
         }
       }, function(httpResponse) {
         if (options && options.error) {
           options.error(httpResponse);
+          response.error("Uh oh, something went wrong");
         }
       });
 });
