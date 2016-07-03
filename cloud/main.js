@@ -1,5 +1,5 @@
-var mailgun = require('cloud/MailModule.js');
-mailgun.initialize(process.env.MAILGUN_DOMAIN, process.env.MAILGUN_API_KEY);
+//var mailgun = require('cloud/MailModule.js');
+//mailgun.initialize(process.env.MAILGUN_DOMAIN, process.env.MAILGUN_API_KEY);
 /*
 Parse.Cloud.define('hello', function(req, res) {
 Mailgun.sendEmail({
