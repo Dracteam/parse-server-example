@@ -36,7 +36,7 @@ Parse.Cloud.define("sendMail", function(request, response) {
         response.success("Email sent!");
     },
     error: function(httpResponse) {
-        response.error(("Uh oh, something went wrong");
+        response.error("Uh oh, something went wrong");
     }
       });
 });
