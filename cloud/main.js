@@ -1,19 +1,26 @@
 Parse.Cloud.define("downloaditems", function(request, response){
-   Parse.Promise.as().then(function() { 
-        var query = new Parse.Query("Items");
-        query.find().then(null, function(error){
-        return Parse.Promise.error('Sorry, this item is no longer available.');
+   var items;
+   var query = new Parse.Query("Items");
+
+    var promise = new Parse.Promise();
+
+    query.find().then(function(results) {
+        if (results.length == 0)
+        {
+            promise.resolve("No items found!");
+        }
+        else
+        {
+           items = results;    
+           promise.resolve(results);
+            
+        }
+    }).then(function() {
+        response.success(items);
+    }, function(error) {
+       response.error(error);
     });
-   }).then(function(results){
-       if (!result) {
-      return Parse.Promise.error('Sorry, this item is no longer available.');
-       }
-       
-   }).then(function(results){
-       response.success(results);
-   }, function(error) {
-    response.error(error);
-  });
+
 });
 
 Parse.Cloud.define("purchase", function(request, response) {
