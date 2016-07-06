@@ -10,12 +10,12 @@ Parse.Cloud.define("downloaditems", function(request, response) {
     return itemsQuery.find().then(null, function(error){
     return Parse.Promise.error('1 - Sorry, an error occurred.');                          
     });                      
-  }).then(function(results){
-    if (!results) {
+  }).then(function(result){
+    if (!result) {
       return Parse.Promise.error('2 - Sorry, an error occurred.');
     } 
-    items = results;    
-    promise.resolve(results);
+    items = result;    
+    promise.resolve(result);
       
   }, function(error) {
        response.error(error);
