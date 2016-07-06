@@ -31,7 +31,7 @@
     
     // We have items left! Let's create our order item before 
     // charging the credit card (just to be safe).
-    order = new Parse.Object('Order');
+    order = new Parse.Object('Orders');
     order.set('name', request.params.name);
     order.set('user', request.params.user);
     order.set('items', request.params.items);
