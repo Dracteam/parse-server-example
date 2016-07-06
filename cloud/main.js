@@ -1,8 +1,6 @@
 Parse.Cloud.define("downloaditems", function(request, response) {
     
-  Parse.Cloud.useMasterKey();
-  var items,item, order;
-    
+  var items; 
  // Query of items
   Parse.Promise.as().then(function(){
                           
@@ -17,7 +15,9 @@ Parse.Cloud.define("downloaditems", function(request, response) {
     items = result;    
     promise.resolve(result);
       
-  }, function(error) {
+  }).then(function() {
+        response.success = items;
+    }, function(error) {
        response.error(error);
   });
 });
