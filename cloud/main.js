@@ -11,8 +11,20 @@ Parse.Cloud.define("downloaditems", function(request, response){
          }
          else
          {
-            items = results;    
-            promise.resolve(results);
+            var itemsArray = [];  
+            for (var i = 0; i < results.length; i++) {
+                var object = results[i];
+                var paramsitemsArray = request.params.itemsarray;
+                for (var i = 0; i < paramsitemsArray.length; i++) {
+                        var objectDictionary = paramsitemsArray[i];
+                        if(object.get('title') === objectDictionary.get('title')){
+                        //object.increment("sold", + objectDictionary.get('quantity'));
+                        itemsArray.push(object);
+                        }   
+                } 
+            }
+            items = itemsArray;    
+            promise.resolve(itemsArray);
              
          }
      }).then(function() {
@@ -20,7 +32,7 @@ Parse.Cloud.define("downloaditems", function(request, response){
      }, function(error) {
         response.error(error);
       });
-});      
+});        
 
 
 Parse.Cloud.define("purchase", function(request, response) {
