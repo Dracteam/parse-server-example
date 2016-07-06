@@ -11,12 +11,11 @@ Parse.Cloud.define("downloaditems", function(request, response){
         }
         else
         {
-           items = results;    
-           promise.resolve(results);
+           items = results; 
+            response.success(items);
+          
             
         }
-    }).then(function() {
-        response.success(items);
     }, function(error) {
        response.error(error);
     });
