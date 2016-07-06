@@ -18,7 +18,7 @@ Parse.Cloud.define("downloaditems", function(request, response){
                 for (var r = 0; r < paramsitemsArray.length; r++) {
                         if(object.get('title') === paramsitemsArray[r].title){
                         object.increment("sold", + paramsitemsArray[r].quantity);
-                        itemsArray.push(object.get('sold'));
+                        itemsArray.push(object);
                         }   
                 } 
             }
