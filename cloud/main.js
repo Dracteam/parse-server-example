@@ -3,19 +3,21 @@ Parse.Cloud.define("downloaditems", function(request, response){
    var query = new Parse.Query("Items");
 
     var promise = new Parse.Promise();
-
-    query.find().then(function(results) {
-        if (results.length == 0)
-        {
-            promise.resolve("No items found!");
-        }
-        else
-        {
-           items = results; 
-            response.success(items);
-          
+    promise.then(function(){
+    query.find().then(null, function(error){
+    return Parse.Promise.error('1 - Sorry, an error occurred.');                          
+    });                      
+     }).then(function(results) {
+       if (!results) {
+      return Parse.Promise.error('2 - Sorry, an error occurred.');
+        } 
+        
+           items = results;    
+           promise.resolve(results);
             
-        }
+        
+    }).then(function() {
+        response.success = items;
     }, function(error) {
        response.error(error);
     });
