@@ -1,40 +1,43 @@
 Parse.Cloud.define("downloaditems", function(request, response){
    var items;
-   
-   Parse.Promise.as().then(function(){
-        
-        var query = new Parse.Query("Items");
-        return query.find().then(null, function(error){
-          return Parse.Promise.error('1 - Sorry, an error occurred.');                          
-        });                      
-     }).then(function(results) {
-       if (!results) {
-      return Parse.Promise.error('2 - Sorry, an error occurred.');
-        } 
-        
-           items = results;    
+   var query = new Parse.Query("Items");
+
+    var promise = new Parse.Promise();
+
+    query.find().then(function(results) {
+        if (!results)
+        {
+            promise.error('1 - Sorry, an error occurred.'); 
+        }
+        else
+        {
+             
+           promise.resolve(results);
            var itemsArray = [];  
            for (var i = 0; i < results.length; i++) {
            var object = results[i];
            var paramsitemsArray = request.params.itemsarray;
            for (var i = 0; i < paramsitemsArray.length; i++) {
-               var objectDictionary = paramsitemsArray[i];
-               if(object.get('title') === objectDictionary.get('title')){
+           var objectDictionary = paramsitemsArray[i];
+           if(object.get('title') === objectDictionary.get('title')){
                object.increment("sold", + objectDictionary.get('quantity'));
                itemsArray.push(object);
-               }   
-           } 
-           }
-           return Parse.Object.saveAll(itemsArray).then(null, function(error){
-             return Parse.Promise.error('3 - Sorry, an error occurred.');
-             }); 
-        
+           }   
+       } 
+    }
+        items = itemsArray;
+        return Parse.Object.saveAll(itemsArray).then(null, function(error){
+         return Parse.Promise.error('3 - Sorry, an error occurred.');
+        }); 
+        }
     }).then(function() {
         response.success = items;
     }, function(error) {
        response.error(error);
     });
 
+    
+    
 });
 
 
