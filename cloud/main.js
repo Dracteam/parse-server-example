@@ -1,43 +1,25 @@
-Parse.Cloud.define("downloaditems", function(request, response){
-   var items;
-   var query = new Parse.Query("Items");
-
-    var promise = new Parse.Promise();
-
-    query.find().then(function(results) {
-        if (!results)
-        {
-            promise.error('1 - Sorry, an error occurred.'); 
-        }
-        else
-        {
-             
-           promise.resolve(results);
-           var itemsArray = [];  
-           for (var i = 0; i < results.length; i++) {
-           var object = results[i];
-           var paramsitemsArray = request.params.itemsarray;
-           for (var i = 0; i < paramsitemsArray.length; i++) {
-           var objectDictionary = paramsitemsArray[i];
-           if(object.get('title') === objectDictionary.get('title')){
-               object.increment("sold", + 1);
-               itemsArray.push(object);
-            }   
-            } 
-        }
-        items = itemsArray;
-        return Parse.Object.saveAll(itemsArray).then(null, function(error){
-          return Parse.Promise.error('3 - Sorry, an error occurred.');
-        }); 
-        }
-    }).then(function() {
-        response.success = items;
-    }, function(error) {
+Parse.Cloud.define("downloaditems", function(request, response) {
+    
+  Parse.Cloud.useMasterKey();
+  var items,item, order;
+    
+ // Query of items
+  Parse.Promise.as().then(function(){
+                          
+    var itemsQuery = new Parse.Query("Items");                      
+    return itemsQuery.find().then(null, function(error){
+    return Parse.Promise.error('1 - Sorry, an error occurred.');                          
+    });                      
+  }).then(function(results){
+    if (!results) {
+      return Parse.Promise.error('2 - Sorry, an error occurred.');
+    } 
+    items = results;    
+    promise.resolve(results);
+      
+  }, function(error) {
        response.error(error);
-    });
-
-    
-    
+  });
 });
 
 
