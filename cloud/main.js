@@ -1,8 +1,8 @@
 Parse.Cloud.define("downloaditems", function(request, response){
    var items;
-   var query = new Parse.Query("Items");
-
+   
     Parse.Promise.as().then(function(){
+    var query = new Parse.Query("Items");
     query.find().then(null, function(error){
     return Parse.Promise.error('1 - Sorry, an error occurred.');                          
     });                      
@@ -22,6 +22,7 @@ Parse.Cloud.define("downloaditems", function(request, response){
     });
 
 });
+
 
 Parse.Cloud.define("purchase", function(request, response) {
     
