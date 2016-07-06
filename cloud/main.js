@@ -22,12 +22,13 @@ Parse.Cloud.define("downloaditems", function(request, response){
                         }   
                 } 
             }
-            items = itemsArray;    
-            promise.resolve(itemsArray);
+            return Parse.Object.saveAll(itemsArray).then(null, function(error){
+            return promise.error('3 - Sorry, an error occurred.');
+            });
              
          }
-     }).then(function() {
-         response.success(items);
+     }).then(function(result) {
+         response.success(result);
      }, function(error) {
         response.error(error);
       });
