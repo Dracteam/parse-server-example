@@ -1,5 +1,5 @@
  Parse.Cloud.define("downloaditems", function(request, response){
-   var items;
+   var items, order;
    var query = new Parse.Query("Items");
  
      var promise = new Parse.Promise();
