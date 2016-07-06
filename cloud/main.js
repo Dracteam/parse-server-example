@@ -6,7 +6,7 @@ Parse.Cloud.define("purchase", function(request, response) {
  // Query of items
   Parse.Promise.as().then(function(){
                           
-    var itemsQuery = new Parse.Query('Items');                      
+    var itemsQuery = new Parse.Query("Items");                      
     return itemsQuery.find().then(null, function(error){
     return Parse.Promise.error('1 - Sorry, an error occurred.');                          
     });                      
@@ -31,7 +31,7 @@ Parse.Cloud.define("purchase", function(request, response) {
          return Parse.Promise.error('3 - Sorry, an error occurred.');
     }); 
       
-  }).then(function(result) {
+  }).then(function(results) {
     
     // We have items left! Let's create our order item before 
     // charging the credit card (just to be safe).
