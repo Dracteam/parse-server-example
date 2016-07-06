@@ -1,3 +1,21 @@
+Parse.Cloud.define("downloaditems", function(request, response){
+   Parse.Promise.as().then(function() { 
+        var query = new Parse.Query("Items");
+        query.find().then(function(error){
+        return Parse.Promise.error('Sorry, this item is no longer available.');
+    });
+   }).then(function(results){
+       if (!result) {
+      response.error('Sorry, no items found.');
+       }
+       
+   }).then(function(results){
+       response.success(results);
+   });
+    
+    
+});
+
 Parse.Cloud.define("purchase", function(request, response) {
     
   Parse.Cloud.useMasterKey();
