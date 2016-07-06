@@ -9,10 +9,12 @@ Parse.Cloud.define("purchase", function(request, response) {
                           
     var itemsQuery = new Parse.Query('Items');                      
     return itemsQuery.find().then(null, function(error){
+        console.error('Request failed with response code ' + error);
     return Parse.Promise.error('1 - Sorry, an error occurred.');                          
     });                      
 }).then(function(results){
     if (!results) {
+        console.error('Request failed with response code ' + error);
       return Parse.Promise.error('2 - Sorry, an error occurred.');
     } 
     var itemsArray = [];  
@@ -29,6 +31,7 @@ Parse.Cloud.define("purchase", function(request, response) {
     }
     // save all the newly created objects
     return Parse.Object.saveAll(lifeArray).then(null, function(error){
+        console.error('Request failed with response code ' + error);
          return Parse.Promise.error('3 - Sorry, an error occurred.');
     }); 
       
@@ -72,6 +75,7 @@ Parse.Cloud.define("purchase", function(request, response) {
   // We use it to return the error from our Cloud Function using the 
   // message we individually crafted based on the failure above.
   }, function(error) {
+      console.error('Request failed with response code ' + error);
     response.error(error);
   });
 });
