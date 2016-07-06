@@ -15,7 +15,8 @@ Parse.Cloud.define("downloaditems", function(request, response){
             var paramsitemsArray = request.params.itemsarray;
             for (var i = 0; i < results.length; i++) {
                 var object = results[i];
-                itemsArray.push(object);
+                itemsArray.push(object.get('title'));
+                
                 /*for (var i = 0; i < paramsitemsArray.length; i++) {
                         var objectDictionary = paramsitemsArray[i];
                         if(object.get('title') === objectDictionary.get('title')){
