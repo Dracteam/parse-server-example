@@ -1,28 +1,83 @@
-/*
-var client = require('cloud/MailModule.js');
-client.initialize(process.env.MAILGUN_DOMAIN, process.env.MAILGUN_API_KEY);
-*/
-/*
-Parse.Cloud.define('hello', function(req, res) {
-Mailgun.sendEmail({
-    to: process.env.TESTMAIL,
-    from: process.env.MAILGUN_SMTP_LOGIN,
-    subject: "Hello from Cloud Code!",
-    text: "Using Parse and Mailgun is great!"
-}, {
-    success: function(httpResponse) {
-        console.log(httpResponse);
-        res.success("Email sent!");
-    },
-    error: function(httpResponse) {
-       console.error(httpResponse);
-       res.error("Uh oh, something went wrong");
+
+Parse.Cloud.define("purchase", function(request, response) {
+    
+  Parse.Cloud.useMasterKey();
+  var items,item, order;
+    
+ // Query of items
+  Parse.Promise.as().then(function(){
+                          
+    var itemsQuery = new Parse.Query('Items');                      
+    return itemsQuery.find().then(null, function(error){
+    return Parse.Promise.error('1 - Sorry, an error occurred.');                          
+    });                      
+}).then(function(results){
+    if (!results) {
+      return Parse.Promise.error('2 - Sorry, an error occurred.');
+    } 
+    var itemsArray = [];  
+    for (var i = 0; i < results.length; i++) {
+      var object = results[i];
+      var paramsitemsArray = request.params.itemsarray;
+       for (var i = 0; i < paramsitemsArray.length; i++) {
+           var objectDictionary = paramsitemsArray[i];
+           if(object.get('title') === objectDictionary.get('title')){
+               object.increment("Sold", +1);
+               itemsArray.push(object);
+           }   
+       } 
     }
-});
+    // save all the newly created objects
+    return Parse.Object.saveAll(lifeArray).then(null, function(error){
+         return Parse.Promise.error('3 - Sorry, an error occurred.');
+    }); 
+      
+  }).then(function(result) {
+    
+    // We have items left! Let's create our order item before 
+    // charging the credit card (just to be safe).
+    order = new Parse.Object('Order');
+    order.set('name', request.params.name);
+    order.set('user', request.params.user);
+    order.set('items', request.params.items);
+    order.set('payment_method', request.payment_method);
+    order.set('amount', request.params.amount);
+    
+    // Create new order
+    return order.save().then(null, function(error) {
+      // This would be a good place to replenish the quantity we've removed.
+      // We've ommited this step in this app.
+      console.log('Creating order object failed. Error: ' + error);
+      return Parse.Promise.error('4 - An error has occurred');
+    });
+
+  }).then(function(order) {     
+
+        Parse.Cloud.httpRequest({
+        method: "POST",
+        url: "https://api:" + process.env.MAILGUN_API_KEY + "@api.mailgun.net/v2/" + process.env.MAILGUN_DOMAIN + "/messages",
+        body: { 
+            to: request.params.mail , 
+            from: 'Your Order <' + process.env.MAILGUN_SMTP_LOGIN +'>', 
+            subject: "Thank You for your Order!", 
+            html: request.params.html
+            }}).then(null, function(error) {
+            return Parse.Promise.error('5 - An error has occurred'); 
+        });
+  }).then(function() {
+    // And we're done!
+    response.success('Success');
+
+  // Any promise that throws an error will propagate to this handler.
+  // We use it to return the error from our Cloud Function using the 
+  // message we individually crafted based on the failure above.
+  }, function(error) {
+    response.error(error);
+  });
 });
 
-from='Excited User <postmaster@appa9a584ad97074d5ab260c6e53ec0ae06.mailgun.org>'
-*/
+
+/*
 Parse.Cloud.define("sendMail", function(request, response) {
  
   Parse.Cloud.httpRequest({
@@ -42,4 +97,4 @@ Parse.Cloud.define("sendMail", function(request, response) {
     }
       });
 });
-
+*/
