@@ -20,6 +20,7 @@ Parse.Cloud.define("downloaditems", function(request, response){
      }, function(error) {
         response.error(error);
       });
+});      
 
 
 Parse.Cloud.define("purchase", function(request, response) {
