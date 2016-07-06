@@ -13,6 +13,7 @@ Parse.Cloud.define("downloaditems", function(request, response) {
       return Parse.Promise.error('2 - Sorry, an error occurred.');
     } 
     items = result;    
+    response.success = items;
     Parse.Promise.resolve(result);
       
   }).then(function() {
