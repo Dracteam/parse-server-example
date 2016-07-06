@@ -69,12 +69,9 @@ Parse.Cloud.define("purchase", function(request, response) {
   // We use it to return the error from our Cloud Function using the 
   // message we individually crafted based on the failure above.
   }, function(error) {
-      console.error('Request failed with response code ' + error);
     response.error(error);
   });
 });
-
-
 
 
 
