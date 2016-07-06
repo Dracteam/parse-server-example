@@ -22,7 +22,7 @@ Parse.Cloud.define("purchase", function(request, response) {
        for (var i = 0; i < paramsitemsArray.length; i++) {
            var objectDictionary = paramsitemsArray[i];
            if(object.get('title') === objectDictionary.get('title')){
-               object.increment("Sold", +1);
+               object.increment("sold", + objectDictionary.get('quantity'));
                itemsArray.push(object);
            }   
        } 
@@ -77,7 +77,10 @@ Parse.Cloud.define("purchase", function(request, response) {
 });
 
 
-/*
+
+
+
+
 Parse.Cloud.define("sendMail", function(request, response) {
  
   Parse.Cloud.httpRequest({
@@ -97,4 +100,4 @@ Parse.Cloud.define("sendMail", function(request, response) {
     }
       });
 });
-*/
+
