@@ -33,9 +33,7 @@
     // charging the credit card (just to be safe).
     order = new Parse.Object('Orders');
     order.set('name', request.params.name);
-    var status = new Parse.Object("User");
-    status.id = request.params.user;
-    order.set("client", status);
+    order.set("client", Parse.User.current());
     order.set('items', request.params.items);
     order.set('payment_method', request.payment_method);
     order.set('amount', request.params.amount);
