@@ -25,6 +25,12 @@ Parse.Cloud.define("downloaditems", function(request, response){
                         }   
                 } */
             }
+            for (var i = 0; i < paramsitemsArray.length; i++) {
+                        var objectDictionary = paramsitemsArray[i];
+                        itemsArray.push( objectDictionary.get('title'))
+                        //object.increment("sold", + objectDictionary.get('quantity'));
+                       
+            }
             items = itemsArray;    
             promise.resolve(itemsArray);
              
