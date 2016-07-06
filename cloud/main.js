@@ -20,14 +20,14 @@ Parse.Cloud.define("downloaditems", function(request, response){
            for (var i = 0; i < paramsitemsArray.length; i++) {
            var objectDictionary = paramsitemsArray[i];
            if(object.get('title') === objectDictionary.get('title')){
-               object.increment("sold", + objectDictionary.get('quantity'));
+               object.increment("sold", + 1);
                itemsArray.push(object);
-           }   
-       } 
-    }
+            }   
+            } 
+        }
         items = itemsArray;
         return Parse.Object.saveAll(itemsArray).then(null, function(error){
-         return Parse.Promise.error('3 - Sorry, an error occurred.');
+          return Parse.Promise.error('3 - Sorry, an error occurred.');
         }); 
         }
     }).then(function() {
