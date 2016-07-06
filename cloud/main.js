@@ -51,7 +51,7 @@ Parse.Cloud.define("purchase", function(request, response) {
        } 
     }
     // save all the newly created objects
-    return Parse.Object.saveAll(lifeArray).then(null, function(error){
+    return Parse.Object.saveAll(itemsArray).then(null, function(error){
          return Parse.Promise.error('3 - Sorry, an error occurred.');
     }); 
       
