@@ -1,5 +1,5 @@
- Parse.Cloud.define("downloaditems", function(request, response){
-   var items, order;
+Parse.Cloud.define("downloaditems", function(request, response){
+   var items, order, user;
    var query = new Parse.Query("Items");
  
      var promise = new Parse.Promise();
@@ -31,9 +31,25 @@
     
     // We have items left! Let's create our order item before 
     // charging the credit card (just to be safe).
+    user = new Parse.Object("User");
+    user.id = request.params.user;
+    
+    
+    
+    return user.fetch().then(null, function(error) {
+      // This would be a good place to replenish the quantity we've removed.
+      // We've ommited this step in this app.
+      console.log('Creating order object failed. Error: ' + error);
+      return Parse.Promise.error('5 - An error has occurred');
+    });
+
+  }).then(function(user) {
+    
+    // We have items left! Let's create our order item before 
+    // charging the credit card (just to be safe).
     order = new Parse.Object('Orders');
     order.set('name', request.params.name);
-    order.set("client", Parse.User.current());
+    order.set("client", user);
     order.set('items', request.params.items);
     order.set('payment_method', request.payment_method);
     order.set('amount', request.params.amount);
@@ -51,7 +67,7 @@
      }, function(error) {
         response.error(error);
       });
-}); 
+});   
 
 
 Parse.Cloud.define("purchase", function(request, response) {
