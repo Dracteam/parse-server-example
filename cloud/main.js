@@ -1,11 +1,3 @@
-var Tour = Parse.Object.extend("Tour");
-    var tour = new Tour();
-    tour.id = request.params.tour;
-    tour.fetch().then(function() {
-
-        // do something with the tour object
-
-    }); 
 
 Parse.Cloud.define("downloaditems", function(request, response){
    var items, order, user;
