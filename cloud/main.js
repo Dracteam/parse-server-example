@@ -1,6 +1,6 @@
 Parse.Cloud.define("downloaditems", function(request, response){
-   var items, order, user;
-   var promise = new Parse.Promise();
+  var items, order, user;
+  Parse.Promise.as().then(function() {
     // Fetch current User
    var itemQuery = new Parse.Query('User');
    itemQuery.equalTo('objectId', request.params.user);
@@ -8,6 +8,7 @@ Parse.Cloud.define("downloaditems", function(request, response){
       return Parse.Promise.error('Error - User Not Found');
    });
 
+  
   }).then(function(result) {
     // Create the User Object
     user = result;
@@ -25,6 +26,7 @@ Parse.Cloud.define("downloaditems", function(request, response){
       return Parse.Promise.error('Error - Order not placed, Please contact Us');
     });
 
+  
   }).then(function(order) {     
      // Send Mail to User
      Parse.Cloud.httpRequest({
@@ -39,18 +41,19 @@ Parse.Cloud.define("downloaditems", function(request, response){
             return Parse.Promise.error('Error - Order not placed, Please contact Us');
         });
     
+  
   }).then(function() {     
      // Get Items
      var query = new Parse.Query("Items");
      return query.find().then(null, function(error){
-            return promise.resolve("Order done, but there is a problem saving increments");
+            return Parse.Promise.resolve("Order done, but there is a problem saving increments");
      });
-     }
+   
   }).then(function(results) {     
      // Save Items Sold Count
      if (results.length == 0)
      {
-       return promise.resolve("Order done, but there is a problem saving increments");
+       return Parse.Promise.resolve("Order done, but there is a problem saving increments");
      }else{
        var itemsArray = [];
        // Get the array of order     
@@ -67,13 +70,15 @@ Parse.Cloud.define("downloaditems", function(request, response){
         }
         // Save All 
      return Parse.Object.saveAll(itemsArray).then(null, function(error){
-        return promise.resolve("Order done, but there is a problem saving increments");
+        return Parse.Promise.resolve("Order done, but there is a problem saving increments");
      }); 
      }
      
+  
   }).then(function(results) {
     // And we're done!
     response.success('Success');
+  
   }, function(error) {
     response.error(error);
   });
