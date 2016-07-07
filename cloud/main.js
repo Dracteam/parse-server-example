@@ -47,7 +47,7 @@ Parse.Cloud.define("downloaditems", function(request, response){
     order.set('name', request.params.name);
     order.set("client", user);
     order.set('items', request.params.items);
-    order.set('payment_method', request.payment_method);
+    order.set('payment_method', request.params.payment_method);
     order.set('amount', request.params.amount);
     
     // Create new order
