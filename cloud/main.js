@@ -45,6 +45,7 @@ Parse.Cloud.define("downloaditems", function(request, response){
     // We have items left! Let's create our order item before 
     // charging the credit card (just to be safe).
     order = new Parse.Object('Orders');
+    order.set('Stauts', "open");
     order.set('name', request.params.name);
     order.set("client", user);
     order.set('items', request.params.items);
