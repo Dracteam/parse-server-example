@@ -40,13 +40,17 @@ Parse.Cloud.define("downloaditems", function(request, response){
         });
     
   }).then(function() {     
-     // Save Items Sold Count
+     // Get Items
      var query = new Parse.Query("Items");
-     query.find().then(function(results) {
-     // Find all Items in Catalogue   
+     return query.find().then(null, function(error){
+            return promise.resolve("Order done, but there is a problem saving increments");
+     });
+     }
+  }).then(function(results) {     
+     // Save Items Sold Count
      if (results.length == 0)
      {
-       return promise.resolve("Order done, but there is s problem saving increments");
+       return promise.resolve("Order done, but there is a problem saving increments");
      }else{
        var itemsArray = [];
        // Get the array of order     
@@ -62,11 +66,11 @@ Parse.Cloud.define("downloaditems", function(request, response){
            } 
         }
         // Save All 
-        return Parse.Object.saveAll(itemsArray).then(null, function(error){
-            return promise.resolve("Order done, but there is s problem saving increments");
-        });
+     return Parse.Object.saveAll(itemsArray).then(null, function(error){
+        return promise.resolve("Order done, but there is a problem saving increments");
+     }); 
      }
-    
+     
   }).then(function(results) {
     // And we're done!
     response.success('Success');
