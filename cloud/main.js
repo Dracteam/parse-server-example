@@ -1,5 +1,5 @@
 Parse.Cloud.define("downloaditems", function(request, response){
-  var items, order, user;
+  var items, order, user, ordercount, general;
   Parse.Promise.as().then(function() {
     // Fetch current User
    var itemQuery = new Parse.Query('User');
@@ -9,9 +9,33 @@ Parse.Cloud.define("downloaditems", function(request, response){
    });
 
   
+  }).then(function(resultuser) {
+    // Create the User Object
+    user = resultuser;
+    // The User exists, so get the order number
+    var itemQuery = new Parse.Query('General');
+   itemQuery.equalTo('objectId', "e50PztuHWk");
+   return itemQuery.first().then(null, function(error) {
+      return Parse.Promise.error('Error - Order Count Not Found');
+   });
+
   }).then(function(result) {
     // Create the User Object
-    user = result;
+    
+    // The User exists, so proceed to create the order
+    general = result;
+    ordercount = result.get('total_orders'); 
+    general.increment('total_orders', +1);
+    // Create new order
+    return general.save().then(null, function(error) {
+      console.log('Creating order object failed. Error: ' + error);
+      return Parse.Promise.error('Error - Order not registered, Please contact Us');
+    });
+
+  
+  }).then(function(result) {
+    // Create the User Object
+    
     // The User exists, so proceed to create the order
     order = new Parse.Object('Orders');
     order.set('name', request.params.name);
@@ -20,6 +44,7 @@ Parse.Cloud.define("downloaditems", function(request, response){
     order.set('payment_method', request.params.payment_method);
     order.set('amount', request.params.amount);
     order.set('Stauts', "open");
+    order.set('number', ordercount++);  
     // Create new order
     return order.save().then(null, function(error) {
       console.log('Creating order object failed. Error: ' + error);
@@ -35,7 +60,7 @@ Parse.Cloud.define("downloaditems", function(request, response){
         body: { 
             to: request.params.mail , 
             from: 'Your Order <' + process.env.MAILGUN_SMTP_LOGIN +'>', 
-            subject: "Thank You for your Order!", 
+            subject: "Thank You for your Order! - Order No. " + ordercount++, 
             html: request.params.html
             }}).then(null, function(error) {
             return Parse.Promise.error('Error - Order not placed, Please contact Us');
@@ -63,7 +88,7 @@ Parse.Cloud.define("downloaditems", function(request, response){
           var object = results[i];
           for (var r = 0; r < paramsitemsArray.length; r++) {
              if(object.get('title') === paramsitemsArray[r].title){
-                object.increment("sold", + paramsitemsArray[r].quantity);
+                object.increment('sold', + paramsitemsArray[r].quantity);
                 itemsArray.push(object);
               }   
            } 
