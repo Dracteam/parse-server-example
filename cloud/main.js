@@ -44,7 +44,8 @@ Parse.Cloud.define("downloaditems", function(request, response){
     order.set('payment_method', request.params.payment_method);
     order.set('amount', request.params.amount);
     order.set('Stauts', "open");
-    order.set('number', ordercount++);  
+    ordercount++;
+    order.set('number', ordercount);  
     // Create new order
     return order.save().then(null, function(error) {
       console.log('Creating order object failed. Error: ' + error);
