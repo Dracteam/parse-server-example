@@ -46,6 +46,7 @@ Parse.Cloud.define("downloaditems", function(request, response){
     }
     order.set('amount', request.params.amount);
     ordercount++;
+    order.set('number', ordercount);  
     order.set('Completed', false);  
     
     // Create new order
