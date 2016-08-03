@@ -40,14 +40,14 @@ Parse.Cloud.define("downloaditems", function(request, response){
     order.set('items', request.params.items);
     order.set('payment_method', request.params.payment_method);
     if(request.params.payment_method === 'Credit Card'){
-      order.set('Paid', True); 
+      order.set('Paid', true); 
     }else{
-      order.set('Paid', False); 
+      order.set('Paid', false); 
     }
     order.set('amount', request.params.amount);
     order.set('Stauts', "open");
     ordercount++;
-    order.set('Completed', False);  
+    order.set('Completed', false);  
     
     // Create new order
     return order.save().then(null, function(error) {
