@@ -45,7 +45,6 @@ Parse.Cloud.define("downloaditems", function(request, response){
       order.set('Paid', false); 
     }
     order.set('amount', request.params.amount);
-    order.set('Stauts', "open");
     ordercount++;
     order.set('Completed', false);  
     
