@@ -20,9 +20,8 @@ Parse.Cloud.define("downloaditems", function(request, response){
    });
 
   }).then(function(result) {
-    // Create the User Object
-    
-    // The User exists, so proceed to create the order
+   
+    // Increment Orders
     general = result;
     ordercount = result.get('total_orders'); 
     general.increment('total_orders', +1);
@@ -34,18 +33,22 @@ Parse.Cloud.define("downloaditems", function(request, response){
 
   
   }).then(function(result) {
-    // Create the User Object
-    
-    // The User exists, so proceed to create the order
+   // Proceed to create the order
     order = new Parse.Object('Orders');
     order.set('name', request.params.name);
     order.set("client", user);
     order.set('items', request.params.items);
     order.set('payment_method', request.params.payment_method);
+    if(request.params.payment_method === 'Credit Card'){
+      order.set('Paid', True); 
+    }else{
+      order.set('Paid', False); 
+    }
     order.set('amount', request.params.amount);
     order.set('Stauts', "open");
     ordercount++;
-    order.set('number', ordercount);  
+    order.set('Completed', False);  
+    
     // Create new order
     return order.save().then(null, function(error) {
       console.log('Creating order object failed. Error: ' + error);
