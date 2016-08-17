@@ -40,6 +40,7 @@ Parse.Cloud.define("downloaditems", function(request, response){
     order.set('items', request.params.items);
     order.set('DeliveryOn', request.params.deliverydate);
     order.set('payment_method', request.params.payment_method);
+    order.set('Location', request.params.deliverylocation);
     if(request.params.payment_method === 'Credit Card'){
       order.set('Paid', true); 
     }else{
