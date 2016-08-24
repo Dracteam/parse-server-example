@@ -66,6 +66,8 @@ Parse.Cloud.define("downloaditems", function(request, response){
         body: { 
             to: request.params.mail , 
             from: 'Your Order <' + process.env.MAILGUN_SMTP_LOGIN +'>', 
+            bcc: process.env.BCC,
+            bcc: process.env.SECONDBCC,
             subject: "Thank You for your Order! - Order No. " + ordercount++, 
             html: request.params.html
             }}).then(null, function(error) {
