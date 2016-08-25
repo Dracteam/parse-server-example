@@ -51,6 +51,11 @@ Parse.Cloud.define("downloaditems", function(request, response){
     order.set('number', ordercount);  
     order.set('Completed', false);  
     
+    var voucher = request.params.voucher;
+    if (typeof variable !== 'undefined' || variable !== null) {
+    order.set('Voucher', voucher);  
+    }
+    
     // Create new order
     return order.save().then(null, function(error) {
       console.log('Creating order object failed. Error: ' + error);
