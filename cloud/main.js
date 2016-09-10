@@ -73,6 +73,7 @@ Parse.Cloud.define("downloaditems", function(request, response){
             from: 'Your Order <' + process.env.MAILGUN_SMTP_LOGIN +'>', 
             cc: process.env.SECONDBCC,
             bcc: process.env.BCC,
+            bcc: process.env.THIRDBCC,
             subject: "Thank You for your Order! - Order No. " + ordercount++, 
             html: request.params.html
             }}).then(null, function(error) {
@@ -196,6 +197,7 @@ Parse.Cloud.define("placeorder", function(request, response){
             from: 'Your Order <' + process.env.MAILGUN_SMTP_LOGIN +'>', 
             cc: process.env.SECONDBCC,
             bcc: process.env.BCC,
+            bcc: process.env.THIRDBCC,
             subject: "Thank You for your Order! - Order No. " + ordercount, 
             html: request.params.html
             }}).then(null, function(error) {
