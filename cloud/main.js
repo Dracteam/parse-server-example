@@ -199,7 +199,7 @@ Parse.Cloud.define("placeorder", function(request, response){
             bcc: process.env.BCC,
             bcc: process.env.THIRDBCC,
             subject: "Thank You for your Order! - Order No. " + ordercount, 
-            html: request.params.html;
+            html: request.params.html
             }}).then(null, function(error) {
             return Parse.Promise.error('Error - Order not placed, Please contact Us');
         });
