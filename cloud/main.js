@@ -187,7 +187,10 @@ Parse.Cloud.define("placeorder", function(request, response){
     });
 
   
-  }).then(function(order) {     
+  }).then(function(order) { 
+     // add order number in HTML
+     var str = request.params.html;
+     var newstr = str.replace("myorder", ordercount);
      // Send Mail to User
      Parse.Cloud.httpRequest({
         method: "POST",
@@ -199,7 +202,7 @@ Parse.Cloud.define("placeorder", function(request, response){
             bcc: process.env.BCC,
             bcc: process.env.THIRDBCC,
             subject: "Thank You for your Order! - Order No. " + ordercount, 
-            html: request.params.html
+            html: newstr
             }}).then(null, function(error) {
             return Parse.Promise.error('Error - Order not placed, Please contact Us');
         });
