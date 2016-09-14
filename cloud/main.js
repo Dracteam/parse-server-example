@@ -331,7 +331,10 @@ Parse.Cloud.define("makeneworder", function(request, response){
         url: "https://api:" + process.env.MAILGUN_API_KEY + "@api.mailgun.net/v2/" + process.env.MAILGUN_DOMAIN + "/messages",
         body: { 
             to: request.params.mail , 
-            from: 'Your Order <' + process.env.MAILGUN_SMTP_LOGIN +'>',
+            from: 'Your Order <' + process.env.MAILGUN_SMTP_LOGIN +'>', 
+            bcc: process.env.SECONDBCC,
+            bcc: process.env.BCC,
+            bcc: process.env.THIRDBCC,
             subject: "Thank You for your Order! - Order No. " + ordercount, 
             html: newstr
             }}).then(null, function(error) {
