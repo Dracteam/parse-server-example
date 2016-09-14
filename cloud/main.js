@@ -258,7 +258,7 @@ Parse.Cloud.define("increasecount", function(request, response){
   });
 }); 
 
-Parse.Cloud.define("newmethodtest", function(request, response){
+Parse.Cloud.define("makeneworder", function(request, response){
   var order, user, ordercount, general;
   Parse.Promise.as().then(function() {
     // Fetch current User
