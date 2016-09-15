@@ -444,7 +444,6 @@ Parse.Cloud.define("onlyorder", function(request, response){
       order.set('Paid', false); 
     }
     order.set('amount', request.params.amount);
-    ordercount++;
     order.set('number', 125);  
     order.set('Completed', false);  
     
