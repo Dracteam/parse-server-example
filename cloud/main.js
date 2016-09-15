@@ -351,6 +351,10 @@ Parse.Cloud.define("makeneworder", function(request, response){
 
 Parse.Cloud.define("cloudservertest", function(request, response){
   var order, ordercount, general;
+  
+  var user = request.user; // request.user replaces Parse.User.current()
+  var token = user.getSessionToken(); // get session token from request.user
+  
   Parse.Promise.as().then(function() {
    // Query General to get the new order number
    var itemQuery = new Parse.Query('General');
@@ -372,7 +376,7 @@ Parse.Cloud.define("cloudservertest", function(request, response){
    // Proceed to create the order
     order = new Parse.Object('Orders');
     order.set('name', request.params.name);
-    order.set("client", request.user);
+    order.set("client", user);
     order.set('items', request.params.items);
     order.set('DeliveryOn', request.params.deliverydate);
     order.set('payment_method', request.params.payment_method);
@@ -392,7 +396,7 @@ Parse.Cloud.define("cloudservertest", function(request, response){
     order.set('Voucher', voucher);  
     }
     // Save the order
-    return order.save().then(null, function(error) {
+    return order.save({ sessionToken: token }).then(null, function(error) {
       console.log('Creating order object failed. Error: ' + error);
       return Parse.Promise.error('Error - Order not placed, Please contact Us');
     });
