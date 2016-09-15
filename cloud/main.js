@@ -433,24 +433,6 @@ Parse.Cloud.define("onlyorder", function(request, response){
    // Proceed to create the order
     order = new Parse.Object('Orders');
     order.set('name', request.params.name);
-    order.set("client", user);
-    order.set('items', request.params.items);
-    order.set('DeliveryOn', request.params.deliverydate);
-    order.set('payment_method', request.params.payment_method);
-    order.set('Location', request.params.deliverylocation);
-    if(request.params.payment_method === 'Credit Card'){
-      order.set('Paid', true); 
-    }else{
-      order.set('Paid', false); 
-    }
-    order.set('amount', request.params.amount);
-    order.set('number', 125);  
-    order.set('Completed', false);  
-    
-    var voucher = request.params.voucher;
-    if (typeof variable !== 'undefined' || variable !== null) {
-    order.set('Voucher', voucher);  
-    }
     // Save the order
     return order.save({ sessionToken: token }).then(null, function(error) {
       console.log('Creating order object failed. Error: ' + error);
