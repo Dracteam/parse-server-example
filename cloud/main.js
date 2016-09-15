@@ -51,9 +51,8 @@ Parse.Cloud.define("downloaditems", function(request, response){
     order.set('number', ordercount);  
     order.set('Completed', false);  
     
-    var voucher = request.params.voucher;
-    if (typeof variable !== 'undefined' || variable !== null) {
-    order.set('Voucher', voucher);  
+    if (typeof request.params.voucher !== 'undefined') {
+    order.set('Voucher', request.params.voucher);  
     }
     
     // Create new order
@@ -310,6 +309,3 @@ Parse.Cloud.define("makeneworder", function(request, response){
     response.error(error);
   });
 }); 
-
-
-
