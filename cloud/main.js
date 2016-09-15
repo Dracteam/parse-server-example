@@ -438,6 +438,13 @@ Parse.Cloud.define("onlyorder", function(request, response){
     order.set('DeliveryOn', request.params.deliverydate);
     order.set('payment_method', request.params.payment_method);
     order.set('Location', request.params.deliverylocation);
+    order.set('Paid', false); 
+    order.set('amount', request.params.amount);
+    order.set('Completed', false);  
+    var voucher = request.params.voucher;
+    if (typeof variable !== 'undefined' || variable !== null) {
+    order.set('Voucher', voucher);  
+    }
     // Save the order
     return order.save({ sessionToken: token }).then(null, function(error) {
       console.log('Creating order object failed. Error: ' + error);
