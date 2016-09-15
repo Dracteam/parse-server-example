@@ -433,6 +433,7 @@ Parse.Cloud.define("onlyorder", function(request, response){
    // Proceed to create the order
     order = new Parse.Object('Orders');
     order.set('name', request.params.name);
+    order.set("client", user);
     // Save the order
     return order.save({ sessionToken: token }).then(null, function(error) {
       console.log('Creating order object failed. Error: ' + error);
