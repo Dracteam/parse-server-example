@@ -392,7 +392,7 @@ Parse.Cloud.define("cloudservertest", function(request, response){
     order.set('Voucher', voucher);  
     }
     // Save the order
-    return order.save().then(null, function(error) {
+    return order.save({ useMasterKey: true }).then(null, function(error) {
       console.log('Creating order object failed. Error: ' + error);
       return Parse.Promise.error('Error - Order not placed, Please contact Us');
     });
@@ -419,4 +419,3 @@ Parse.Cloud.define("cloudservertest", function(request, response){
     response.error(error);
   });
 }); 
-
