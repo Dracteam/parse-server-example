@@ -24,7 +24,7 @@ Parse.Cloud.define("downloaditems", function(request, response){
     // Increment Orders
     general = result;
     ordercount = result.get('total_orders'); 
-    general.increment('total_orders', +1);
+    general.increment('total_orders');
     // Create new order
     return general.save().then(null, function(error) {
       console.log('Creating order object failed. Error: ' + error);
@@ -148,7 +148,7 @@ Parse.Cloud.define("placeorder", function(request, response){
     // Increment Orders
     general = result;
     ordercount = result.get('total_orders'); 
-    general.increment('total_orders', +1);
+    general.increment('total_orders');
     // Create new order
     return general.save().then(null, function(error) {
       console.log('Creating order object failed. Error: ' + error);
@@ -283,7 +283,7 @@ Parse.Cloud.define("makeneworder", function(request, response){
     // Increment Orders
     general = result;
     ordercount = result.get('total_orders'); 
-    general.increment('total_orders', +1);
+    general.increment('total_orders');
     // Create new order
     return general.save().then(null, function(error) {
       console.log('Creating order object failed. Error: ' + error);
