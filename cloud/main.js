@@ -309,3 +309,73 @@ Parse.Cloud.define("makeneworder", function(request, response){
     response.error(error);
   });
 }); 
+
+Parse.Cloud.define("makeordertest", function(request, response){
+  var order, ordercount, general;
+  // Get the user and its Token
+  var user = request.user; // request.user replaces Parse.User.current()
+  var token = user.getSessionToken(); // get session token from request.user
+  
+  Parse.Promise.as().then(function() {
+    // Fetch current User
+   var itemQuery = new Parse.Query('General');
+   itemQuery.equalTo('objectId', "e50PztuHWk");
+   return itemQuery.first().then(null, function(error) {
+      return Parse.Promise.error('Error - Order Count Not Found');
+   });
+  }).then(function(result) {
+    // Increment Orders
+    general = result;
+    ordercount = result.get('total_orders'); 
+    general.increment('total_orders');
+    // Create new order
+    return general.save().then(null, function(error) {
+      console.log('Creating order object failed. Error: ' + error);
+      return Parse.Promise.error('Error - Order not registered, Please contact Us');
+    });
+  }).then(function(result) {
+   // Proceed to create the order
+    order = new Parse.Object('Orders');
+    order.set('name', request.params.name);
+    order.set("client", user);
+    order.set('items', request.params.items);
+    order.set('DeliveryOn', request.params.deliverydate);
+    order.set('payment_method', request.params.payment_method);
+    order.set('Location', request.params.deliverylocation);
+    order.set('Paid', false); 
+    order.set('amount', request.params.amount);
+    ordercount++;
+    order.set('number', ordercount);  
+    order.set('Completed', false);  
+    if (typeof request.params.voucher !== 'undefined') {
+    order.set('Voucher', request.params.voucher);  
+    }
+    // Create new order
+    return order.save({ sessionToken: token }).then(null, function(error) {
+      console.log('Creating order object failed. Error: ' + error);
+      return Parse.Promise.error('Error - Order not placed, Please contact Us');
+    });
+  }).then(function(order) { 
+     var str = request.params.html;
+     var newstr = str.replace("myorder", ordercount);
+     var fixstr = newstr.replace("0px;\" width=\"100%","0px; width:100%;");
+     // Send Mail to User
+     Parse.Cloud.httpRequest({
+        method: "POST",
+        url: "https://api:" + process.env.MAILGUN_API_KEY + "@api.mailgun.net/v2/" + process.env.MAILGUN_DOMAIN + "/messages",
+        body: { 
+            to: request.params.mail , 
+            from: 'Your Order <' + process.env.MAILGUN_SMTP_LOGIN +'>', 
+            subject: "Thank You for your Order! - Order No. " + ordercount, 
+            html: fixstr
+            }}).then(null, function(error) {
+            return Parse.Promise.error('Error - Order not placed, Please contact Us');
+        });
+  }).then(function() {
+    // And we're done!
+    response.success('Success');
+  
+  }, function(error) {
+    response.error(error);
+  });
+}); 
