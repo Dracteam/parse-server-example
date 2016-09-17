@@ -359,6 +359,7 @@ Parse.Cloud.define("makeordertest", function(request, response){
      var str = request.params.html;
      var newstr = str.replace("myorder", ordercount);
      var fixstr = newstr.replace("0px;\" width=\"100%","0px; width:100%;");
+     var secfixstr = fixstr.replace("height: 100%; width: 100%;", " ");
      // Send Mail to User
      Parse.Cloud.httpRequest({
         method: "POST",
