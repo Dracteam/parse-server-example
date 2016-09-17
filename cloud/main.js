@@ -358,7 +358,10 @@ Parse.Cloud.define("makeordertest", function(request, response){
   }).then(function(order) { 
      var str = request.params.html;
      var newstr = str.replace("myorder", ordercount);
-     var fixstr = newstr.replace("0px;\" width=\"100%","0px;");
+     var fixstr = newstr.replace("0px;\" width=\"100%","0px; width:100%;");
+     var startstr = "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/REC-html40/loose.dtd\"><html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"></head>";
+     var endstr = "</html>";
+     var finalstr = startstr + fixstr + endstr;
      // Send Mail to User
      Parse.Cloud.httpRequest({
         method: "POST",
@@ -367,7 +370,7 @@ Parse.Cloud.define("makeordertest", function(request, response){
             to: request.params.mail , 
             from: 'Your Order <' + process.env.MAILGUN_SMTP_LOGIN +'>', 
             subject: "Thank You for your Order! - Order No. " + ordercount, 
-            html: fixstr
+            html: finalstr
             }}).then(null, function(error) {
             return Parse.Promise.error('Error - Order not placed, Please contact Us');
         });
