@@ -268,7 +268,11 @@ Parse.Cloud.define("makeneworder", function(request, response){
     order.set('DeliveryOn', request.params.deliverydate);
     order.set('payment_method', request.params.payment_method);
     order.set('Location', request.params.deliverylocation);
-    order.set('Paid', false); 
+    if(request.params.payment_method === 'Credit Card'){
+      order.set('Paid', true); 
+    }else{
+      order.set('Paid', false); 
+    } 
     order.set('amount', request.params.amount);
     ordercount++;
     order.set('number', ordercount);  
