@@ -313,7 +313,7 @@ Parse.Cloud.define("makeneworder", function(request, response){
     response.error(error);
   });
 }); 
- /*
+ 
 
 Parse.Cloud.define("setrandomhours", function(request, response){
 
@@ -367,4 +367,3 @@ Parse.Cloud.define("setrandomhours", function(request, response){
   });
 }); 
 
-*/
