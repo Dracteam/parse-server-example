@@ -313,3 +313,55 @@ Parse.Cloud.define("makeneworder", function(request, response){
     response.error(error);
   });
 }); 
+
+Parse.Cloud.define("setrandomhours", function(request, response){
+
+  Parse.Promise.as().then(function() {
+  var query = new Parse.Query("Winner");
+     return query.find().then(null, function(error){
+        return Parse.Promise.error("Error - but there is a problem getting the object");
+     });
+  }).then(function(results) {
+    // Get two Random Hours and Minutes
+    var morninghour = Math.floor((Math.random() * 11) + 9);
+    var afternoonhour =  Math.floor((Math.random() * 15) + 12); 
+    var morningminutes =  Math.floor((Math.random() * 60) + 0); 
+    var afternoonminutes =  Math.floor((Math.random() * 60) + 0);  
+    // Set the morning date with Random Number  
+    var morning = new Date();
+    morning.setHours(morninghour);  
+	morning.setMinutes(morningminutes);
+	morning.setSeconds(0);
+	morning.setMilliseconds(0);
+    // Set the afternoon date with Random Number  
+    var afternoon = new Date();
+    afternoon.setHours(afternoonhour);  
+	afternoon.setMinutes(afternoonminutes);
+	afternoon.setSeconds(0);
+	afternoon.setMilliseconds(0); 
+    // New Array  
+    var objectsArray = [];
+    for (var i = 0; i < results.length; i++) {
+       var object = results[i];
+       var description object.get('Description'); 
+       if (description === 'Morning'){
+         object.set('hourofwin', morning);  
+       }else{
+         object.set('hourofwin', afternoon);
+       }
+       object.set('gotawinner', false);
+       object.set('winnerphone', "");
+       objectsArray.push(object);
+    }  
+    // Save All  
+    return Parse.Object.saveAll(objectsArray).then(null, function(error){
+        return Parse.Promise.error("Error - there is a problem saving objects");
+     }); 
+     
+  }).then(function() {
+    // And we're done!
+    response.success(count);
+  }, function(error) {
+    response.error(error);
+  });
+}); 
