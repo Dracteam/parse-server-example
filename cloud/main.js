@@ -324,8 +324,8 @@ Parse.Cloud.define("setrandomhours", function(request, response){
      });
   }).then(function(results) {
     // Get two Random Hours and Minutes
-    var morninghour = Math.floor((Math.random() * 11) + 9);
-    var afternoonhour = Math.floor((Math.random() * 15) + 12); 
+    var morninghour = Math.floor((Math.random() * 2) + 6);
+    var afternoonhour = Math.floor((Math.random() * 3) + 9); 
     var morningminutes = Math.floor((Math.random() * 60) + 0); 
     var afternoonminutes = Math.floor((Math.random() * 60) + 0);  
     // Set the morning date with Random Number  
