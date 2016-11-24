@@ -386,7 +386,7 @@ Parse.Cloud.define("updatetotal", function(request, response){
           var sold = object.get('sold');
           var price = object.get('price');
           var total = sold*price;
-          object.set('Dirhams', total);
+          object.set('Dhirams', total);
           itemsArray.push(object);
     }
      return Parse.Object.saveAll(itemsArray).then(null, function(error){
