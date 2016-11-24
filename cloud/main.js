@@ -367,3 +367,33 @@ Parse.Cloud.define("setrandomhours", function(request, response){
   });
 }); 
 
+Parse.cloud.define("updatetotal", function(request, response){
+    Parse.Promise.as().then(function() {
+  var query = new Parse.Query("Items");
+     return query.find().then(null, function(error){
+        return Parse.Promise.error("Error - Total Sold not found");
+     });
+  }).then(function(results) {     
+     // Get Items Sold Count
+     var itemsArray = [];
+     // update the total amount of Dhirams earned from every sold item      
+     for (var i = 0; i < results.length; i++) {
+          var object = results[i];
+          var sold = object.get('sold');
+          var price = object.get('price');
+          var total = sold*price;
+          object.set('Dirhams', total);
+          itemsArray.push(object);
+    }
+     return Parse.Object.saveAll(itemsArray).then(null, function(error){
+        return Parse.Promise.error("Error - there is a problem saving increments");
+     });   
+  }).then(function() {
+    // And we're done!
+    response.success('Success');
+  
+  }, function(error) {
+    response.error(error);
+  });
+}); 
+
