@@ -407,7 +407,7 @@ Parse.Cloud.define("updatetotal", function(request, response){
   });
 }); 
 
-Parse.Cloud.define("resetUserPassword", function(request, response){
+Parse.Cloud.define("resetUserPassword", function(req, res){
    // Must use Password Reset
    Parse.Cloud.useMasterKey();
    Parse.Promise.as().then(function() {
@@ -441,10 +441,10 @@ Parse.Cloud.define("resetUserPassword", function(request, response){
         });
   }).then(function() {
     // And we're done!
-    response.success('Password Changed');
+    res.success('Password Changed');
   
   }, function(error) {
-    response.error(error);
+    res.error(error);
   });
 });
 
