@@ -426,7 +426,7 @@ Parse.Cloud.useMasterKey();
                         to: req.params.username,
                         from: 'Italian Dairy Products <' + process.env.MAILGUN_SMTP_LOGIN +'>', 
                         subject: "Italian Dairy Products - Your new Password", 
-                        html: req.params.password
+                        html: req.params.html
                         }}).then(function(httpResponse) {
                     res.success(httpResponse.text);
                   }, function(err) {
