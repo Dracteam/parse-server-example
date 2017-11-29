@@ -4,7 +4,12 @@ Parse.Cloud.define("downloaditems", function(request, response){
     // Fetch current User
    var itemQuery = new Parse.Query('User');
    itemQuery.equalTo('objectId', request.params.user);
-   return itemQuery.first().then(null, function(error) {
+   return item
+   
+   
+   
+   
+   ().then(null, function(error) {
       return Parse.Promise.error('Error - User Not Found');
    });
 
@@ -403,27 +408,13 @@ Parse.Cloud.define("updatetotal", function(request, response){
 }); 
 
 Parse.Cloud.define('resetPassword', function(request, response){
-    var query = new Parse.Query(Parse.User);
-query.equalTo("username", req.params.username);
+    var query = new Parse.Query('User');
+	query.equalTo("username", req.params.username);
 
 query.first({
     success: function(theUser){
         var newPassword = req.params.password;
-        console.log("New Password: " + newPassword);
-
-        console.log("set: " + theUser.set("password", newPassword));
-        console.log("setPassword: " + theUser.setPassword(newPassword));
-
-        theUser.save(null,{
-            success: function(theUser){
-                // The user was saved correctly
-                res.success(1);
-
-            },
-            error: function(error){
-                res.error("Can't change Password");
-            }
-        });
+	res.success(theUser);
     },
     error: function(error){
         res.error("error and stuff" + error);
