@@ -428,7 +428,7 @@ Parse.Cloud.define('resetPassword', function(req, res){
              error: function(error){
                  res.error("Can't change Password");
              }
-         });
+         }, {useMasterKey:true});
      },
      error: function(error){
         res.error("error and stuff" + error);
