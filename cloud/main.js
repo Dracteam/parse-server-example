@@ -407,7 +407,7 @@ Parse.Cloud.define("updatetotal", function(request, response){
   });
 }); 
 
-Parse.Cloud.define('resetPassword', function(req, response){
+Parse.Cloud.define('resetPassword', function(req, res){
      var query = new Parse.Query(Parse.User);
  query.equalTo("username", req.params.username);
  
