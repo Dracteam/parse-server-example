@@ -428,6 +428,6 @@ query.first({
     error: function(error){
         res.error("error and stuff" + error);
     }
-    , useMasterKey: true});
+    });
 });
 
