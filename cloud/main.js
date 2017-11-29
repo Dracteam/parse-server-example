@@ -402,3 +402,32 @@ Parse.Cloud.define("updatetotal", function(request, response){
   });
 }); 
 
+Parse.Cloud.define('resetPassword', function(request, response){
+    var query = new Parse.Query(Parse.User);
+query.equalTo("username", req.params.username);
+
+query.first({
+    success: function(theUser){
+        var newPassword = req.params.password;
+        console.log("New Password: " + newPassword);
+
+        console.log("set: " + theUser.set("password", newPassword));
+        console.log("setPassword: " + theUser.setPassword(newPassword));
+
+        theUser.save(null,{
+            success: function(theUser){
+                // The user was saved correctly
+                res.success(1);
+
+            },
+            error: function(error){
+                res.error("Can't change Password");
+            }
+        });
+    },
+    error: function(error){
+        res.error("error and stuff" + error);
+    }
+    , useMasterKey: true});
+});
+
