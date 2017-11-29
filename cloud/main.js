@@ -415,7 +415,7 @@ Parse.Cloud.define('resetPassword', function(req, res){
      success: function(theUser){
          var newPassword = req.params.password;
          theUser.setPassword(newPassword);
-         theUser.save(null,{useMasterKey:true},{
+         theUser.save(null,{
              success: function(theUser){
                  // The user was saved correctly
                  res.success(1);
@@ -423,7 +423,7 @@ Parse.Cloud.define('resetPassword', function(req, res){
             },
              error: function(error){
                  res.error("Can't change Password");
-             }
+             },{useMasterKey:true}
          });
      },
      error: function(error){
