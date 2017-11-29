@@ -408,6 +408,7 @@ Parse.Cloud.define("updatetotal", function(request, response){
 }); 
 
 Parse.Cloud.define('resetPassword', function(req, res){
+Parse.Cloud.useMasterKey();
      var query = new Parse.Query(Parse.User);
  query.equalTo("username", req.params.username);
  
@@ -424,7 +425,7 @@ Parse.Cloud.define('resetPassword', function(req, res){
              error: function(error){
                  res.error("Can't change Password");
              }
-         },{useMasterKey:true});
+         });
      },
      error: function(error){
         res.error("error and stuff" + error);
