@@ -407,45 +407,42 @@ Parse.Cloud.define("updatetotal", function(request, response){
   });
 }); 
 
-Parse.Cloud.define("resetUserPassword", function(req, res){
-   // Must use Password Reset
-   Parse.Cloud.useMasterKey();
-   Parse.Promise.as().then(function() {
-   // Fetch current User
-   var query = new Parse.Query(Parse.User);
-   query.equalTo("username", req.params.username);
-   return query.first().then(null, function(error) {
-      return Parse.Promise.error('Error - User Not Found');
-   });
-  }).then(function(theUser) {
-    // Set New Password
-    var newPassword = req.params.password;
-    theUser.setPassword(newPassword);
-    // Save
-    return theUser.save().then(null, function(error) {
-      return Parse.Promise.error('Error - User Not Found');
-    });
-  }).then(function(result) { 
-     var str = request.params.html;
-     // Send Mail to User
-     Parse.Cloud.httpRequest({
-        method: "POST",
-        url: "https://api:" + process.env.MAILGUN_API_KEY + "@api.mailgun.net/v2/" + process.env.MAILGUN_DOMAIN + "/messages",
-        body: { 
-            to: req.params.username,
-            from: 'Italian Dairy Products <' + process.env.MAILGUN_SMTP_LOGIN +'>', 
-            subject: "Italian Dairy Products - Your new Password", 
-            html: req.params.password
-            }}).then(null, function(error) {
-            return Parse.Promise.error('Error - Mail not sent');
-        });
-  }).then(function() {
-    // And we're done!
-    res.success('Password Changed');
-  
-  }, function(error) {
-    res.error(error);
-  });
-});
+Parse.Cloud.define('resetPassword', function(req, res){
+Parse.Cloud.useMasterKey();
+     var query = new Parse.Query(Parse.User);
+ query.equalTo("username", req.params.username);
+ 
+ query.first({
+     success: function(theUser){
+         var newPassword = req.params.password;
+         theUser.setPassword(newPassword);
+         theUser.save(null,{
+             success: function(theUser){
+                 // The user was saved correctly
+                  Parse.Cloud.httpRequest({
+                  method: "POST",
+                  url: "https://api:" + process.env.MAILGUN_API_KEY + "@api.mailgun.net/v2/" + process.env.MAILGUN_DOMAIN + "/messages",
+                  body: { 
+                        to: req.params.username,
+                        from: 'Italian Dairy Products <' + process.env.MAILGUN_SMTP_LOGIN +'>', 
+                        subject: "Italian Dairy Products - Your new Password", 
+                        html: req.params.password
+                        }}).then(function(httpResponse) {
+                    res.success(httpResponse.text);
+                  }, function(err) {
+                    res.end(err);
+                  });
+                    
+            },
+             error: function(error){
+                 res.error("Can't change Password");
+             }
+         });
+     },
+     error: function(error){
+        res.error("error and stuff" + error);
+     }
+     });
+ });
 
 
