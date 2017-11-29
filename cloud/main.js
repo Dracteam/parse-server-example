@@ -407,18 +407,25 @@ Parse.Cloud.define("updatetotal", function(request, response){
   });
 }); 
 
-Parse.Cloud.define('resetPassword', function(request, response){
-    var query = new Parse.Query('User');
-	query.equalTo("username", req.params.username);
+Parse.Cloud.define("resetPassword", function(request, response){
+  var user;
+  Parse.Promise.as().then(function() {
+    // Fetch current User
+   var itemQuery = new Parse.Query('User');
+   itemQuery.equalTo('username', request.params.user);
+   return itemQuery.first().then(null, function(error) {
+      return Parse.Promise.error('Error - User Not Found');
+   });
 
-query.first({
-    success: function(theUser){
-        var newPassword = req.params.password;
-	res.success(theUser);
-    },
-    error: function(error){
-        res.error("error and stuff" + error);
-    }
-    });
-});
+  
+  }).then(function(resultuser) {
+    // And we're done!
+    user = resultuser;
+    response.success(user);
+  
+  }, function(error) {
+    response.error(error);
+  });
+});   
+
 
