@@ -419,7 +419,7 @@ Parse.Cloud.define('resetPassword', function(req, res){
          console.log("set: " + theUser.set("password", newPassword));
          console.log("setPassword: " + theUser.setPassword(newPassword));
  
-         theUser.save(null, useMasterKey: true,{
+         theUser.save(null,{
              success: function(theUser){
                  // The user was saved correctly
                  res.success(1);
