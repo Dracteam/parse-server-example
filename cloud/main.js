@@ -296,7 +296,8 @@ Parse.Cloud.define("makeneworder", function(request, response){
      // Fix of HTML for Gmail 
      var fixstr = newstr.replace("height: 100%; width: 100%;", " ");
      var secondfix = fixstr.replace("collapse;\" bgcolor=\"#ffffff", "collapse;\" width=\"100%\" bgcolor=\"#ffffff");
-     // Send Mail to User
+     var vatfix = secondfix("width=\"100%\">", "width=\"100%\"><tr><td style=\"text-align: center;\" colspan=\"3\" bgcolor=\"#c6e9ed\" height=\"30px\"><span style=\"color: #5c5c5c; font-size: 40px;\"></td></tr><tr><tr><td style=\"text-align: center;\" colspan=\"3\" bgcolor=\"#c6e9ed\" height=\"40px\"><span style=\"color: #5c5c5c; font-size: 40px;\"><strong> TAX Invoice</strong></span></td></tr><tr><td style=\"text-align: center;\" colspan=\"3\" bgcolor=\"#c6e9ed\" height=\"30px\"><span style=\"color: #5c5c5c;\"><strong>Tax Registration Number (TRN# 100328384100003)</strong></span></td></tr>");
+	  // Send Mail to User
      Parse.Cloud.httpRequest({
         method: "POST",
         url: "https://api:" + process.env.MAILGUN_API_KEY + "@api.mailgun.net/v2/" + process.env.MAILGUN_DOMAIN + "/messages",
@@ -306,7 +307,7 @@ Parse.Cloud.define("makeneworder", function(request, response){
             cc: process.env.SECONDBCC,
             bcc: process.env.THIRDBCC,
             subject: "Thank You for your Order! - Order No. " + ordercount, 
-            html: secondfix
+            html: vatfix
             }}).then(null, function(error) {
             return Parse.Promise.error('Error - Order not placed, Please contact Us');
         });
