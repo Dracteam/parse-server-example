@@ -297,6 +297,7 @@ Parse.Cloud.define("makeneworder", function(request, response){
      var fixstr = newstr.replace("height: 100%; width: 100%;", " ");
      var secondfix = fixstr.replace("collapse;\" bgcolor=\"#ffffff", "collapse;\" width=\"100%\" bgcolor=\"#ffffff");
      var vatfix = secondfix.replace("width=\"100%\">", "width=\"100%\"><tr><td style=\"text-align: center;\" colspan=\"3\" bgcolor=\"#c6e9ed\" height=\"30px\"><span style=\"color: #5c5c5c; font-size: 40px;\"></td></tr><tr><tr><td style=\"text-align: center;\" colspan=\"3\" bgcolor=\"#c6e9ed\" height=\"40px\"><span style=\"color: #5c5c5c; font-size: 40px;\"><strong> TAX Invoice</strong></span></td></tr><tr><td style=\"text-align: center;\" colspan=\"3\" bgcolor=\"#c6e9ed\" height=\"30px\"><span style=\"color: #5c5c5c;\"><strong>Tax Registration Number (TRN# 100328384100003)</strong></span></td></tr>");
+	var invFix = vatfix.replace("Order", "Invoice");   
 	  // Send Mail to User
      Parse.Cloud.httpRequest({
         method: "POST",
@@ -307,7 +308,7 @@ Parse.Cloud.define("makeneworder", function(request, response){
             cc: process.env.SECONDBCC,
             bcc: process.env.THIRDBCC,
             subject: "Thank You for your Order! - Order No. " + ordercount, 
-            html: vatfix
+            html: invFix
             }}).then(null, function(error) {
             return Parse.Promise.error('Error - Order not placed, Please contact Us');
         });
