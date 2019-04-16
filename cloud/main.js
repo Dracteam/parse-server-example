@@ -19,7 +19,7 @@ Parse.Cloud.define("downloaditems", function(request, response){
     user = resultuser;
     // The User exists, so get the order number
     var itemQuery = new Parse.Query('General');
-   itemQuery.equalTo('objectId', "e50PztuHWk");
+   itemQuery.equalTo('objectId', "3c4GW9TkTl");
    return itemQuery.first().then(null, function(error) {
       return Parse.Promise.error('Error - Order Count Not Found');
    });
@@ -135,7 +135,7 @@ Parse.Cloud.define("placeorder", function(request, response){
   Parse.Promise.as().then(function() {
     // Fetch current User
    var itemQuery = new Parse.Query('General');
-   itemQuery.equalTo('objectId', "e50PztuHWk");
+   itemQuery.equalTo('objectId', "3c4GW9TkTl");
    return itemQuery.first().then(null, function(error) {
       return Parse.Promise.error('Error - Order Count Not Found');
    });
@@ -250,7 +250,7 @@ Parse.Cloud.define("makeneworder", function(request, response){
   Parse.Promise.as().then(function() {
     // Fetch current User
    var itemQuery = new Parse.Query('General');
-   itemQuery.equalTo('objectId', "e50PztuHWk");
+   itemQuery.equalTo('objectId', "3c4GW9TkTl");
    return itemQuery.first().then(null, function(error) {
       return Parse.Promise.error('Error - Order Count Not Found');
    });
